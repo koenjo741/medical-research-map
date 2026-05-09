@@ -111,10 +111,6 @@
       const div = document.createElement("div");
       div.className = "column-title";
 
-      // Use the color of the first card as the accent color for the title card
-      const accentColor = cat.cards[0]?.color || "#1a237e";
-      div.style.setProperty("--title-accent", accentColor);
-
       const name = document.createElement("div");
       name.className = "column-title__name";
       name.textContent = cat.name;

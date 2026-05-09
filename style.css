@@ -7,11 +7,11 @@
 /* ─── Design Tokens ─── */
 :root {
   /* Surface & background */
-  --bg-body:          #e8f0fe;
+  --bg-body:          #f0f4f8;
   --bg-header:        #1a237e;
   --bg-header-accent: #283593;
   --bg-card:          #ffffff;
-  --bg-column-title:  #cfedff;
+  --bg-column-title:  #ceecfe;
   --bg-legend:        #1a237e;
 
   /* Text */
@@ -141,7 +141,7 @@ body {
   display: grid;
   gap: var(--gap-columns);
   padding: 20px 24px 20px 24px;
-  background: #dcf0ff; /* Light blue background behind title cards */
+  background: #ceecfe; /* Light blue background behind title cards */
   flex-shrink: 0;
   z-index: 50;
   border-bottom: 1px solid rgba(26, 35, 126, 0.05);
@@ -156,7 +156,7 @@ body {
   flex-direction: column;
   gap: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  border-top: 4px solid var(--title-accent, #1a237e);
+  border-top: 4px solid #00857a; /* Unified teal accent color */
   user-select: none;
   min-height: 90px;
   justify-content: center;
@@ -182,6 +182,7 @@ body {
   display: grid;
   gap: var(--gap-columns);
   padding: 10px 24px 20px 24px;
+  background: #f0f4f8; /* Content area background */
   flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
