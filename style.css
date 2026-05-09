@@ -46,6 +46,8 @@ html {
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 body {
@@ -54,7 +56,18 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;            /* outer page never scrolls */
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════ STICKY TOP ═══════════════════════ */
+.sticky-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
 }
 
 /* ═══════════════════════ HEADER ═══════════════════════ */
@@ -182,9 +195,8 @@ body {
   gap: var(--gap-columns);
   padding: 10px 24px 20px 24px;
   background: #f0f4f8; /* Content area background */
-  flex: 1 1 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* flex: 1 1 auto; Removed to allow natural height */
+  /* overflow-y: auto; Removed to allow page scrolling */
   align-content: start;
 }
 
