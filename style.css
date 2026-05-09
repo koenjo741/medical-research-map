@@ -222,6 +222,7 @@ body {
 .card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
+  z-index: 500; /* Bring card to front of all columns */
 }
 
 .card:active {
@@ -308,7 +309,7 @@ body {
 /* ═══════════════════════ TOOLTIP ═══════════════════════ */
 .tooltip {
   position: absolute;
-  z-index: 100;
+  z-index: 1000;
   width: 256px;
   padding: 12px 14px;
   background: #1e293b;
