@@ -3,7 +3,7 @@
  *
  * Responsibilities:
  *  1. Render column titles, cards, and legend from APP_DATA.
- *  2. Tooltip on hover (follows cursor, positioned intelligently).
+ *  2. Tooltip on hover over ⓘ icon (anchored above icon, matching HIS Standard Map).
  *  3. Real-time search / filter.
  */
 
@@ -16,15 +16,47 @@
   const elLegend    = document.getElementById("legend");
   const elSearch    = document.getElementById("search-input");
 
-  // ─── Tooltip element (singleton) ───
-  const tooltip = document.createElement("div");
-  tooltip.className = "tooltip";
-  tooltip.setAttribute("role", "tooltip");
-  document.body.appendChild(tooltip);
-
   // ─── Set CSS custom property for column count ───
   const colCount = APP_DATA.categories.length;
   document.documentElement.style.setProperty("--col-count", colCount);
+
+  // ═══════════════ SVG Helpers ═══════════════
+
+  /** Create an SVG element with Feather-style attributes */
+  function makeSvg(className, pathD) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.classList.add("card__icon", className);
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+
+    // Support multiple path segments
+    pathD.forEach((d) => {
+      const el = /^[MLHVCSQTAZ]/i.test(d)
+        ? (() => { const p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", d); return p; })()
+        : null;
+      if (el) svg.appendChild(el);
+    });
+
+    return svg;
+  }
+
+  /** Info (ⓘ) icon paths – Feather "info" */
+  const INFO_PATHS = [
+    "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z",
+    "M12 16v-4",
+    "M12 8h.01",
+  ];
+
+  /** External link (↗) icon paths – Feather "external-link" */
+  const EXTLINK_PATHS = [
+    "M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6",
+    "M15 3h6v6",
+    "M10 14L21 3",
+  ];
 
   // ═══════════════ Render ═══════════════
 
@@ -37,28 +69,58 @@
     a.rel = "noopener noreferrer";
     a.style.setProperty("--card-accent", card.color);
     a.style.animationDelay = `${delayIndex * 40}ms`;
-    a.dataset.tooltip = card.tooltip;
+    a.dataset.tooltipTitle = card.title;
+    a.dataset.tooltipBody  = card.tooltip;
     a.dataset.title = card.title.toLowerCase();
 
-    // Title
-    const span = document.createElement("span");
-    span.className = "card__title";
-    span.textContent = card.title;
-    a.appendChild(span);
+    // ── Header row (title + icons) ──
+    const header = document.createElement("div");
+    header.className = "card__header";
 
-    // Arrow icon
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.classList.add("card__arrow");
-    svg.setAttribute("viewBox", "0 0 24 24");
-    svg.setAttribute("fill", "none");
-    svg.setAttribute("stroke", "currentColor");
-    svg.setAttribute("stroke-width", "2");
-    svg.setAttribute("stroke-linecap", "round");
-    svg.setAttribute("stroke-linejoin", "round");
-    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("d", "M5 12h14M12 5l7 7-7 7");
-    svg.appendChild(path);
-    a.appendChild(svg);
+    const title = document.createElement("h3");
+    title.className = "card__title";
+    title.textContent = card.title;
+    header.appendChild(title);
+
+    const icons = document.createElement("div");
+    icons.className = "card__icons";
+
+    // Info icon (ⓘ) – tooltip anchor
+    const infoIcon = makeSvg("card__icon--info", INFO_PATHS);
+    icons.appendChild(infoIcon);
+
+    // External link icon (↗)
+    const extIcon = makeSvg("card__icon--link", EXTLINK_PATHS);
+    icons.appendChild(extIcon);
+
+    // Tooltip element (lives inside icons wrapper for absolute positioning)
+    const tooltipEl = document.createElement("div");
+    tooltipEl.className = "tooltip";
+    tooltipEl.setAttribute("role", "tooltip");
+
+    const tooltipTitle = document.createElement("div");
+    tooltipTitle.className = "tooltip__title";
+    tooltipTitle.textContent = card.title;
+    tooltipEl.appendChild(tooltipTitle);
+
+    const tooltipBody = document.createElement("div");
+    tooltipBody.className = "tooltip__body";
+    tooltipBody.textContent = card.tooltip;
+    tooltipEl.appendChild(tooltipBody);
+
+    const tooltipArrow = document.createElement("div");
+    tooltipArrow.className = "tooltip__arrow";
+    tooltipEl.appendChild(tooltipArrow);
+
+    icons.appendChild(tooltipEl);
+    header.appendChild(icons);
+    a.appendChild(header);
+
+    // ── Description (first 2 lines of tooltip text, light grey) ──
+    const desc = document.createElement("p");
+    desc.className = "card__desc";
+    desc.textContent = card.tooltip;
+    a.appendChild(desc);
 
     return a;
   }
@@ -115,54 +177,23 @@
     elLegend.appendChild(frag);
   }
 
-  // ═══════════════ Tooltip ═══════════════
+  // ═══════════════ Tooltip (hover on ⓘ icon) ═══════════════
 
-  /** Position tooltip near cursor, keeping it on-screen */
-  function positionTooltip(e) {
-    const pad   = 14;
-    const vw    = window.innerWidth;
-    const vh    = window.innerHeight;
-    const rect  = tooltip.getBoundingClientRect();
-
-    let x = e.clientX + pad;
-    let y = e.clientY + pad;
-
-    // Flip left if it would overflow right
-    if (x + rect.width > vw - pad) {
-      x = e.clientX - rect.width - pad;
-    }
-    // Flip up if it would overflow bottom
-    if (y + rect.height > vh - pad) {
-      y = e.clientY - rect.height - pad;
-    }
-
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top  = `${y}px`;
-  }
-
-  function showTooltip(text, e) {
-    tooltip.textContent = text;
-    tooltip.classList.add("tooltip--visible");
-    positionTooltip(e);
-  }
-
-  function hideTooltip() {
-    tooltip.classList.remove("tooltip--visible");
-  }
-
-  // Delegate events from the dashboard
+  /** Show tooltip anchored above the info icon */
   elDashboard.addEventListener("mouseenter", (e) => {
-    const card = e.target.closest(".card");
-    if (card?.dataset.tooltip) showTooltip(card.dataset.tooltip, e);
+    const infoIcon = e.target.closest(".card__icon--info");
+    if (!infoIcon) return;
+
+    const tooltipEl = infoIcon.closest(".card__icons")?.querySelector(".tooltip");
+    if (tooltipEl) tooltipEl.classList.add("tooltip--visible");
   }, true);
 
-  elDashboard.addEventListener("mousemove", (e) => {
-    if (tooltip.classList.contains("tooltip--visible")) positionTooltip(e);
-  });
-
   elDashboard.addEventListener("mouseleave", (e) => {
-    const card = e.target.closest(".card");
-    if (card) hideTooltip();
+    const infoIcon = e.target.closest(".card__icon--info");
+    if (!infoIcon) return;
+
+    const tooltipEl = infoIcon.closest(".card__icons")?.querySelector(".tooltip");
+    if (tooltipEl) tooltipEl.classList.remove("tooltip--visible");
   }, true);
 
   // ═══════════════ Search / Filter ═══════════════
