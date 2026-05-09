@@ -8,11 +8,11 @@
 :root {
   /* Surface & background */
   --bg-body:          #f0f4f8;
-  --bg-header:        #1a237e;
-  --bg-header-accent: #283593;
+  --bg-header:        #004b79;
+  --bg-header-accent: #005a91;
   --bg-card:          #ffffff;
   --bg-column-title:  #ceecfe;
-  --bg-legend:        #1a237e;
+  --bg-legend:        #004b79;
 
   /* Text */
   --clr-text:         #1e293b;
