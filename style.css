@@ -46,18 +46,14 @@ html {
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-y: visible;
-  overflow-x: hidden;
+  /* overflow rules removed to allow position: sticky */
 }
 
 body {
   background: var(--bg-body);
   color: var(--clr-text);
-  display: flex;
-  flex-direction: column;
+  /* display: flex removed for desktop to allow position: sticky to work reliably */
   min-height: 100vh;
-  overflow-y: visible;
-  overflow-x: hidden;
 }
 
 /* ═══════════════════════ STICKY TOP ═══════════════════════ */
@@ -67,7 +63,8 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  background: var(--bg-body);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* ═══════════════════════ HEADER ═══════════════════════ */
@@ -453,6 +450,11 @@ body {
 */
 
 @media (max-width: 1024px) {
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
   /* Enforce mobile state at 1024px and below */
   
   .sticky-container {
