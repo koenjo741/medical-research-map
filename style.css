@@ -150,13 +150,15 @@ body {
 
 /* ═══════════════════════ COLUMN TITLES (sticky row) ═══════════════════════ */
 .column-titles {
-  display: grid;
+  display: grid !important;
   gap: var(--gap-columns);
-  padding: 20px 24px 20px 24px;
-  background: #ceecfe; /* Light blue background behind title cards */
+  padding: 20px 24px;
+  background: #ceecfe;
   flex-shrink: 0;
   z-index: 50;
   border-bottom: 1px solid rgba(26, 35, 126, 0.05);
+  /* Desktop always 1 row */
+  grid-template-columns: repeat(var(--col-count, 7), 1fr) !important;
 }
 
 .column-title {
@@ -172,6 +174,8 @@ body {
   user-select: none;
   min-height: 90px;
   justify-content: center;
+  position: relative;
+  transition: background-color 0.2s;
 }
 
 .column-title__name {
@@ -189,14 +193,26 @@ body {
   line-height: 1.3;
 }
 
+.column-title__chevron {
+  display: none; /* Desktop hidden */
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--clr-text-muted);
+  transition: transform 0.3s ease;
+}
+
 /* ═══════════════════════ DASHBOARD GRID ═══════════════════════ */
 .dashboard {
-  display: grid;
+  display: grid !important;
   gap: var(--gap-columns);
   padding: 10px 24px 20px 24px;
-  background: #f0f4f8; /* Content area background */
-  /* flex: 1 1 auto; Removed to allow natural height */
-  /* overflow-y: auto; Removed to allow page scrolling */
+  background: #f0f4f8;
+  /* Desktop always 1 row */
+  grid-template-columns: repeat(var(--col-count, 7), 1fr) !important;
   align-content: start;
 }
 
@@ -430,47 +446,82 @@ body {
 }
 
 /* ═══════════════════════ RESPONSIVE ═══════════════════════ */
-/* Dynamic column count is set by JS via --col-count */
-.column-titles,
-.dashboard {
-  grid-template-columns: repeat(var(--col-count, 7), 1fr);
-}
+/* 
+   Optimization:
+   - Desktop (>800px): All columns in one row.
+   - Mobile (<=800px): Single column, titles-only (accordion).
+*/
 
-@media (max-width: 1400px) {
-  .column-titles,
-  .dashboard {
-    grid-template-columns: repeat(4, 1fr);
+@media (max-width: 1024px) {
+  /* Enforce mobile state at 1024px and below */
+  
+  .sticky-container {
+    position: static !important;
   }
-}
 
-@media (max-width: 960px) {
   .column-titles,
   .dashboard {
-    grid-template-columns: repeat(3, 1fr);
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 12px !important;
+    gap: 8px !important;
+    width: 100% !important;
+    grid-template-columns: 1fr !important; /* fallback */
   }
-}
 
-@media (max-width: 700px) {
-  .column-titles,
-  .dashboard {
-    grid-template-columns: repeat(2, 1fr);
+  .column-title {
+    cursor: pointer !important;
+    text-align: left !important;
+    padding: 16px 48px 16px 20px !important;
+    min-height: auto !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .column-title:hover {
+    background-color: #f1f5f9 !important;
+  }
+
+  .column-title__chevron {
+    display: block !important;
+  }
+
+  .column-title--expanded .column-title__chevron {
+    transform: translateY(-50%) rotate(180deg) !important;
+  }
+
+  .column {
+    display: none !important; /* STRICTLY HIDDEN BY DEFAULT */
+    padding: 0 8px 16px 20px !important;
+    margin-top: -4px !important;
+    border-left: 3px solid var(--clr-teal) !important;
+    margin-left: 20px !important;
+    width: calc(100% - 20px) !important;
+    flex-direction: column !important;
+  }
+
+  .column--expanded {
+    display: flex !important;
+    animation: accordionIn 0.3s ease-out forwards;
   }
 
   .header__inner {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 10px 0 !important;
   }
 
   .header__search-wrapper {
-    width: 100%;
+    width: 100% !important;
+    margin-top: 10px !important;
   }
 }
 
-@media (max-width: 480px) {
-  .column-titles,
-  .dashboard {
-    grid-template-columns: 1fr;
-  }
+@keyframes accordionIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── Entrance animation ─── */

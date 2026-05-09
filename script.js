@@ -64,6 +64,7 @@
 
   const INFO_PATHS = ["M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z", "M12 16v-4", "M12 8h.01"];
   const EXTLINK_PATHS = ["M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6", "M15 3h6v6", "M10 14L21 3"];
+  const CHEVRON_PATHS = ["M6 9l6 6 6-6"];
 
   // ═══════════════ Render ═══════════════
 
@@ -107,9 +108,10 @@
   /** Render column titles row */
   function renderTitles() {
     const frag = document.createDocumentFragment();
-    APP_DATA.categories.forEach((cat) => {
+    APP_DATA.categories.forEach((cat, idx) => {
       const div = document.createElement("div");
       div.className = "column-title";
+      div.dataset.index = idx;
 
       const name = document.createElement("div");
       name.className = "column-title__name";
@@ -121,6 +123,10 @@
       desc.textContent = cat.description || "";
       div.appendChild(desc);
 
+      // Add chevron for mobile
+      const chevron = makeSvg("column-title__chevron", CHEVRON_PATHS);
+      div.appendChild(chevron);
+
       frag.appendChild(div);
     });
     elTitles.appendChild(frag);
@@ -129,9 +135,10 @@
   function renderDashboard() {
     const frag = document.createDocumentFragment();
     let globalIndex = 0;
-    APP_DATA.categories.forEach((cat) => {
+    APP_DATA.categories.forEach((cat, idx) => {
       const col = document.createElement("div");
       col.className = "column";
+      col.dataset.index = idx;
       cat.cards.forEach((card) => {
         col.appendChild(createCard(card, globalIndex++));
       });
@@ -210,6 +217,24 @@
     const card = e.target.closest(".card");
     if (card) hideTooltip();
   }, true);
+
+  // ═══════════════ Accordion Toggle (Mobile) ═══════════════
+
+  elTitles.addEventListener("click", (e) => {
+    // Only toggle if we are in mobile view (< 1024px)
+    if (window.innerWidth > 1024) return;
+
+    const title = e.target.closest(".column-title");
+    if (!title) return;
+
+    const idx = title.dataset.index;
+    const col = elDashboard.querySelector(`.column[data-index="${idx}"]`);
+    
+    if (col) {
+      const isExpanded = col.classList.toggle("column--expanded");
+      title.classList.toggle("column-title--expanded", isExpanded);
+    }
+  });
 
   // ═══════════════ Search / Filter ═══════════════
 
