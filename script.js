@@ -104,14 +104,27 @@
     return a;
   }
 
-  // ... (renderTitles, renderDashboard, renderLegend omitted for brevity)
-
+  /** Render column titles row */
   function renderTitles() {
     const frag = document.createDocumentFragment();
     APP_DATA.categories.forEach((cat) => {
       const div = document.createElement("div");
       div.className = "column-title";
-      div.textContent = cat.name;
+
+      // Use the color of the first card as the accent color for the title card
+      const accentColor = cat.cards[0]?.color || "#1a237e";
+      div.style.setProperty("--title-accent", accentColor);
+
+      const name = document.createElement("div");
+      name.className = "column-title__name";
+      name.textContent = cat.name;
+      div.appendChild(name);
+
+      const desc = document.createElement("div");
+      desc.className = "column-title__desc";
+      desc.textContent = cat.description || "";
+      div.appendChild(desc);
+
       frag.appendChild(div);
     });
     elTitles.appendChild(frag);

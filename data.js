@@ -15,6 +15,7 @@ const APP_DATA = Object.freeze({
   categories: [
     {
       name: "UNIVERSITÄTSBIBLIOTHEK",
+      description: "Zentrale Einstiegspunkte der JKU.",
       cards: [
         {
           title: "JKU - Databases",
@@ -32,6 +33,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "LITERATURDATENBANKEN",
+      description: "Globale Quellen für Fachartikel.",
       cards: [
         {
           title: "PubMed",
@@ -73,6 +75,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "POINT-OF-CARE & TRIALS",
+      description: "Klinisches Wissen & Studien.",
       cards: [
         {
           title: "UpToDate",
@@ -102,6 +105,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "ARTIFICIAL INTELLIGENCE",
+      description: "LLMs & Diagnosesysteme.",
       cards: [
         {
           title: "GEMINI",
@@ -143,6 +147,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "AI KNOWLEDGE GRAPH TOOLS",
+      description: "Visualisierung von Forschung.",
       cards: [
         {
           title: "Open Knowledge Maps",
@@ -172,6 +177,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "LITERATURVERWALTUNG",
+      description: "Organisation & Zitate.",
       cards: [
         {
           title: "Zotero",
@@ -195,6 +201,7 @@ const APP_DATA = Object.freeze({
     },
     {
       name: "MASTERARBEIT",
+      description: "Leitfäden & Richtlinien.",
       cards: [
         {
           title: "Allgemeine Prinzipien",

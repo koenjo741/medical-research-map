@@ -140,24 +140,41 @@ body {
 .column-titles {
   display: grid;
   gap: var(--gap-columns);
-  padding: 14px 24px 0 24px;
-  background: var(--bg-body);
+  padding: 20px 24px 20px 24px;
+  background: #dcf0ff; /* Light blue background behind title cards */
   flex-shrink: 0;
   z-index: 50;
+  border-bottom: 1px solid rgba(26, 35, 126, 0.05);
 }
 
 .column-title {
-  background: var(--bg-column-title);
-  color: var(--bg-header);
-  font-size: .78rem;
-  font-weight: 700;
-  letter-spacing: .6px;
+  background: #ffffff;
+  padding: 18px 12px;
+  border-radius: 12px;
   text-align: center;
-  padding: 9px 8px;
-  border-radius: var(--radius-title);
-  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border-top: 4px solid var(--title-accent, #1a237e);
   user-select: none;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  min-height: 90px;
+  justify-content: center;
+}
+
+.column-title__name {
+  color: var(--bg-header);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  text-transform: none; /* Reference uses normal case */
+}
+
+.column-title__desc {
+  color: var(--clr-text-muted);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.3;
 }
 
 /* ═══════════════════════ DASHBOARD GRID ═══════════════════════ */
