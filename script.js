@@ -177,22 +177,22 @@
     elLegend.appendChild(frag);
   }
 
-  // ═══════════════ Tooltip (hover on ⓘ icon) ═══════════════
+  // ═══════════════ Tooltip (hover on card) ═══════════════
 
-  /** Show tooltip anchored above the info icon */
+  /** Show tooltip anchored above the icons area when hovering the card */
   elDashboard.addEventListener("mouseenter", (e) => {
-    const infoIcon = e.target.closest(".card__icon--info");
-    if (!infoIcon) return;
+    const card = e.target.closest(".card");
+    if (!card) return;
 
-    const tooltipEl = infoIcon.closest(".card__icons")?.querySelector(".tooltip");
+    const tooltipEl = card.querySelector(".tooltip");
     if (tooltipEl) tooltipEl.classList.add("tooltip--visible");
   }, true);
 
   elDashboard.addEventListener("mouseleave", (e) => {
-    const infoIcon = e.target.closest(".card__icon--info");
-    if (!infoIcon) return;
+    const card = e.target.closest(".card");
+    if (!card) return;
 
-    const tooltipEl = infoIcon.closest(".card__icons")?.querySelector(".tooltip");
+    const tooltipEl = card.querySelector(".tooltip");
     if (tooltipEl) tooltipEl.classList.remove("tooltip--visible");
   }, true);
 
