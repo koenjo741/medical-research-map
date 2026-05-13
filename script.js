@@ -248,9 +248,75 @@
     });
   });
 
+  // ═══════════════ Google Analytics Consent Manager ═══════════════
+
+  const GA_ID = "G-LV8YC6BM42";
+
+  function loadGoogleAnalytics() {
+    // 1. Script tag
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(script);
+
+    // 2. Initialization
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    window.gtag = gtag; // Make it global if needed
+    gtag("js", new Date());
+    gtag("config", GA_ID);
+    
+    console.log("Google Analytics loaded.");
+  }
+
+  function initConsentManager() {
+    const consent = localStorage.getItem("ga-consent");
+
+    if (consent === "granted") {
+      loadGoogleAnalytics();
+    } else if (consent === null) {
+      showConsentBanner();
+    }
+  }
+
+  function showConsentBanner() {
+    const banner = document.createElement("div");
+    banner.className = "consent-banner";
+    banner.innerHTML = `
+      <div class="consent-banner__text">
+        Wir nutzen Analysetools, um die Seite zu verbessern. 
+        Dabei werden Daten anonymisiert erfasst.
+      </div>
+      <div class="consent-banner__actions">
+        <button class="consent-btn consent-btn--reject">Ablehnen</button>
+        <button class="consent-btn consent-btn--accept">OK</button>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    // Event listeners
+    const btnAccept = banner.querySelector(".consent-btn--accept");
+    const btnReject = banner.querySelector(".consent-btn--reject");
+
+    btnAccept.addEventListener("click", () => {
+      localStorage.setItem("ga-consent", "granted");
+      banner.classList.add("consent-banner--hidden");
+      loadGoogleAnalytics();
+      setTimeout(() => banner.remove(), 400);
+    });
+
+    btnReject.addEventListener("click", () => {
+      localStorage.setItem("ga-consent", "denied");
+      banner.classList.add("consent-banner--hidden");
+      setTimeout(() => banner.remove(), 400);
+    });
+  }
+
   // ═══════════════ Init ═══════════════
   renderTitles();
   renderDashboard();
   renderLegend();
+  initConsentManager();
 
 })();
