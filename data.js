@@ -70,6 +70,12 @@ const APP_DATA = Object.freeze({
           color: "#0cff27",
           tooltip: "Literaturdatenbank, die es ermöglicht, high Influencial Citations rasch zu lokalisieren. Author Influence Map: Zeigt an, welche Forscher besonders häufig zitiert wurden und von wem eigene Arbeiten zitiert wurden. Too Long – Didn't Read (TDLR): 1-Satz Zusammenfassungen eines ganzen Artikels.",
           link: "https://www.semanticscholar.org/"
+        },
+        {
+          title: "medRxiv",
+          color: "#0cff27",
+          tooltip: "Zentraler Preprint-Server für klinische Medizin und Gesundheitswissenschaften (betrieben von Cold Spring Harbor, BMJ und Yale). ACHTUNG: Enthält ausschließlich vorläufige Forschungsberichte (Preprints), die noch KEINEM Peer-Review unterzogen wurden. Dürfen nicht als gesicherte klinische Handlungsanleitung oder Basis für Therapieentscheidungen herangezogen werden.",
+          link: "https://www.medrxiv.org/"
         }
       ]
     },
@@ -84,10 +90,16 @@ const APP_DATA = Object.freeze({
           link: "https://www.uptodate.com/"
         },
         {
+          title: "Cochrane Library",
+          color: "#0cff27",
+          tooltip: "Weltweiter Goldstandard für evidenzbasierte Medizin (EBM). Beinhaltet hochqualitative systematische Reviews und Metaanalysen (Cochrane Database of Systematic Reviews) sowie kontrollierte Studien (CENTRAL). In Österreich über die Nationallizenz frei zugänglich.",
+          link: "https://www.cochranelibrary.com/"
+        },
+        {
           title: "AWMF",
           color: "#0cff27",
-          tooltip: "Sammlung hunderter Leitlinien. Evidenzgrade S1 (hoch) bis S3 (niedrig). Zugriff auf evidenzbasiertes Wissen, zusammengestellt durch medizinische Fachgesellschaften.",
-          link: "https://www.awmf.org/"
+          tooltip: "Sammlung hunderter Leitlinien der wissenschaftlich-medizinischen Fachgesellschaften. Evidenzgrade von S1 (Handlungsempfehlung/Konsens) bis S3 (höchste Qualitätsstufe: evidenz- und konsensbasiert).",
+          link: "https://register.awmf.org/de/leitlinien"
         },
         {
           title: "ClinicalTrials.gov",
@@ -141,7 +153,7 @@ const APP_DATA = Object.freeze({
           title: "DeepRare",
           color: "#0cff27",
           tooltip: "DeepRare ist ein KI-gestütztes Multi-Agenten-System zur Diagnose von Rare Diseases. Es nutzt LLMs und hat in Tests menschliche Experten in seiner Diagnosegenauigkeit übertroffen.",
-          link: "https://deeprare.cn/"
+          link: "https://deeprare.onexai.com.cn/"
         }
       ]
     },
@@ -192,10 +204,10 @@ const APP_DATA = Object.freeze({
           link: "https://www.mendeley.com/"
         },
         {
-          title: "Citavi / Lumivero",
+          title: "Citavi",
           color: "#ffda00",
           tooltip: "Umfassende Software zur Literaturverwaltung und Wissensorganisation (JKU Campuslizenz).",
-          link: "https://www.jku.at/bibliothek/recherche/weiteres/citavi/"
+          link: "https://www.jku.at/bibliothek/recherche/literaturverwaltung/citavi/"
         }
       ]
     },
@@ -222,10 +234,16 @@ const APP_DATA = Object.freeze({
           link: "https://www.scribbr.at/anfang-abschlussarbeit-at/forschungsfrage-formulieren/"
         },
         {
-          title: "Methdology",
+          title: "Methodology",
           color: "#0cff27",
           tooltip: "Informationen über die Abfassung des Methodenteils der Arbeit und Ziele des Methodenteils.",
           link: "https://www.kolabtree.com/blog/de/how-to-write-the-methods-section-of-your-research-paper/"
+        },
+        {
+          title: "EQUATOR Network",
+          color: "#0cff27",
+          tooltip: "Zentrales internationales Dachportal für medizinische Reporting-Guidelines. Unerlässlich für die Methodik wissenschaftlicher Arbeiten (PRISMA für Reviews, CONSORT für Studien, STROBE für Beobachtungsstudien, CARE für Fallberichte).",
+          link: "https://www.equator-network.org/"
         },
         {
           title: "JKU-Richtlinie",

@@ -14,7 +14,8 @@
   const elTitles    = document.getElementById("column-titles");
   const elDashboard = document.getElementById("dashboard");
   const elLegend    = document.getElementById("legend");
-  const elSearch    = document.getElementById("search-input");
+  const elSearch      = document.getElementById("search-input");
+  const elSearchClear = document.getElementById("search-clear");
 
   // ─── Tooltip element (singleton) ───
   const tooltip = document.createElement("div");
@@ -238,15 +239,30 @@
 
   // ═══════════════ Search / Filter ═══════════════
 
-  elSearch.addEventListener("input", () => {
-    const query = elSearch.value.trim().toLowerCase();
-    const cards = elDashboard.querySelectorAll(".card");
+  function updateSearch() {
+    const rawVal = elSearch.value;
+    const query = rawVal.trim().toLowerCase();
 
+    if (elSearchClear) {
+      elSearchClear.hidden = (rawVal.length === 0);
+    }
+
+    const cards = elDashboard.querySelectorAll(".card");
     cards.forEach((card) => {
       const match = !query || card.dataset.title.includes(query);
       card.classList.toggle("card--hidden", !match);
     });
-  });
+  }
+
+  elSearch.addEventListener("input", updateSearch);
+
+  if (elSearchClear) {
+    elSearchClear.addEventListener("click", () => {
+      elSearch.value = "";
+      updateSearch();
+      elSearch.focus();
+    });
+  }
 
   // ═══════════════ Google Analytics Consent Manager ═══════════════
 
