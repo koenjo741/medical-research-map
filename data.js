@@ -180,10 +180,10 @@ const APP_DATA = Object.freeze({
           link: "https://search.carrot2.org/"
         },
         {
-          title: "VOSviewer",
+          title: "INCITEFUL Academic",
           color: "#0cff27",
-          tooltip: "VOSviewer ist ein kostenloses Softwaretool zur bibliometrischen Analyse und interaktiven Visualisierung von wissenschaftlichen Netzwerken (wie Publikationen, Autoren oder Schlagworten).",
-          link: "https://www.vosviewer.com/"
+          tooltip: "Inciteful Academic nutzt Zitationsnetzwerke und Graph-Analysen, um ausgehend von Startartikeln relevante wissenschaftliche Literatur, Querverbindungen und Schlüsselarbeiten interaktiv zu visualisieren.",
+          link: "https://incitefulmed.com/academic/"
         }
       ]
     },
